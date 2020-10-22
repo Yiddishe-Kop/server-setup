@@ -1,0 +1,42 @@
+#!/bin/bash
+
+TARGET="/var/www/PROJECT_NAME"
+GIT_DIR="/home/yehuda/repo/PROJECT_NAME.git"
+BRANCH="master"
+
+SLACK_POST_URL="https://hooks.slack.com/services/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"
+
+while read oldrev newrev ref
+do
+        # only checking out the master (or whatever branch you would like to deploy)
+        if [ "$ref" = "refs/heads/$BRANCH" ];
+        then
+
+                cd $TARGET
+                pwd
+
+                echo "activating maintenance mode"
+                php artisan down
+
+                echo "Ref $ref received. Deploying ${BRANCH} branch to production..."
+                git --work-tree=$TARGET --git-dir=$GIT_DIR checkout -f $BRANCH
+
+                echo "Running NPM build command"
+                npm install
+                npm run build
+
+                echo "running composer install"
+                composer install --no-interaction --no-dev --prefer-dist
+
+                echo "running migrations"
+                php artisan migrate --force
+
+                echo "going back live..."
+                php artisan up
+
+                curl -X POST --data-urlencode "payload={'channel': '#deployments', 'username': 'yiddishe-bot', 'text': 'Successfully deployed to <https://IP_ADDRESS/|PROJECT_NAME>!', 'icon_emoji': ':yiddishe-kop:'}" $SLACK_POST_URL
+
+        else
+                echo "Ref $ref received. Doing nothing: only the ${BRANCH} branch may be deployed on this server."
+        fi
+done
