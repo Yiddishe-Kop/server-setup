@@ -90,7 +90,7 @@ composer install --no-interaction --no-dev --prefer-dist
 echo "running migrations"
 php artisan migrate --force
 
-SLACK_POST_URL="https://hooks.slack.com/services/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"
+SLACK_POST_URL="https://hooks.slack.com/services/<YOUR-URL-HERE>"
 curl -X POST --data-urlencode "payload={'channel': '#deployments', 'username': 'yiddishe-bot', 'text': 'Successfully setup <https://$domainName/|$projectName> for the first time!', 'icon_emoji': ':yiddishe-kop:'}" $SLACK_POST_URL
 
 printf "${PURPLE}======================${NC}\n"

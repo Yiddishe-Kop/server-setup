@@ -4,7 +4,7 @@ TARGET="/var/www/PROJECT_NAME"
 GIT_DIR="/home/yehuda/repo/PROJECT_NAME.git"
 BRANCH="master"
 
-SLACK_POST_URL="https://hooks.slack.com/services/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"
+SLACK_POST_URL="https://hooks.slack.com/services/<YOUR-URL-HERE>"
 
 while read oldrev newrev ref
 do
