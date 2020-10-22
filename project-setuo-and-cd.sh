@@ -71,6 +71,10 @@ printf "${GREEN}Then you can push to deploy like so:${NC}\n"
 printf "${CYAN}git push <remote-name>\n"
 read -p "Press enter once code is pushed to server..."
 
+# permissions (again, to be sure 🤪)
+sudo gpasswd -a "$USER" www-data
+sudo chown -R "$USER":www-data /var/www
+
 cd /var/www/$projectName
 cat .env.example | sed "s/DB_DATABASE=laravel/DB_DATABASE=$projectName/" | sed "s/DB_USERNAME=root/DB_USERNAME=${projectName}_user/" | sed "s/DB_PASSWORD=/DB_PASSWORD=${dbPassword}/" > .env
 php artisan key:generate
