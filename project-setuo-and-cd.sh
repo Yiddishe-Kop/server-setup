@@ -22,7 +22,7 @@ read dbPassword
 
 sudo mysql -u root -p$sudoPassword -Bse "
   CREATE DATABASE $projectName;
-  CREATE USER '${projectName}_user'@'%' IDENTIFIED WITH mysql_native_password BY '$dbPassword;
+  CREATE USER '${projectName}_user'@'%' IDENTIFIED WITH mysql_native_password BY '${dbPassword}';
   GRANT ALL ON $projectName.* TO '${projectName}_user'@'%';
 "
 printf "${GREEN}Created Database 🥳${NC}\n"
@@ -31,13 +31,14 @@ printf "${CYAN}Database Name: ${GREEN}${projectName}\n"
 printf "${CYAN}DB Username: ${GREEN}${projectName}_user\n"
 printf "${CYAN}DB Password: ${GREEN}${dbPassword}\n"
 
-# Setup Git
+# # Setup Git
 mkdir -p /var/www/$projectName
 mkdir -p ~/repo/$projectName.git
+SCRIPTS_DIR=$(pwd)
 cd ~/repo/$projectName.git
 git init --bare
 IP="$(curl -4s icanhazip.com)"
-cat post-receive | sed "s/PROJECT_NAME/$projectName/" | sed "s/IP_ADDRESS/$IP/" > hooks/post-receive
+cat $SCRIPTS_DIR/post-receive | sed "s/PROJECT_NAME/$projectName/" | sed "s/IP_ADDRESS/$IP/" > hooks/post-receive
 chmod +x hooks/post-receive
 printf "${GREEN}Finished setting up Git & CD! 🥳${NC}\n"
 
@@ -49,7 +50,9 @@ printf "${CYAN}What is your projects domain?${NC}\n"
 read domainName
 
 # Configure nginx
-sudo cat nginx.conf | sed "s/PROJECT_NAME/$projectName/" | sed "s/DOMAIN_NAME/$domainName/" > /etc/nginx/sites-available/$projectName
+sudo cat $SCRIPTS_DIR/nginx.conf | sed "s/PROJECT_NAME/$projectName/" | sed "s/DOMAIN_NAME/$domainName/" > /etc/nginx/sites-available/$projectName
+# error: Permission denied (above line) - any idea why? sudo is working on other operations...
+
 sudo ln -s /etc/nginx/sites-available/$projectName /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
@@ -64,7 +67,7 @@ printf "${GREEN}SSL ready!${NC}\n"
 
 printf "${PURPLE}Now run the following command from your local project folder:${NC}\n"
 printf "${CYAN}git remote add <remote-name> ssh://$USER@$IP/home/$USER/repo/$projectName.git${NC}\n"
-printf "${GREEN}Then you can push to deploy like so:{NC}\n"
+printf "${GREEN}Then you can push to deploy like so:${NC}\n"
 printf "${CYAN}git push <remote-name>\n"
 read -p "Press enter once code is pushed to server..."
 
