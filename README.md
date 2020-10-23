@@ -47,7 +47,17 @@ Press enter once code is pushed to server..."
 - Runs artisan setup commands
 - Builds assets with `npm run build`
 - Runs your migrations
-- Sends a Slack notification once done (can be edited in `post-receive`)
+- Sends a Slack notification once done (can be edited in `post-receive`) (optional - not included rn)
+
+# Usage
+1. SSH into your fresh Ubuntu machine
+2. clone this repo
+3. run `./1-initial-user-firewall-setup.sh`
+4. Follow the instructions - exit the server & log back in with the given credentials.
+5. clone this repo into your new users home directory.
+6. Run `./2-ubuntu-laravel-setup.sh` to install Laravel dependencies.
+7. Run `./3-project-setuo-and-cd.sh` to setup your project.
+8. Done. Your Laravel app is now live. Happy coding 🥳 .
 
 
 #### Credit
