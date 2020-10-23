@@ -3,9 +3,6 @@
 I was tired spending hours setting up each new server for Laravel projects.
 So this time I decided to write all the commands in a script, which I can run with ease.
 
-## Help wanted! 🙏
-See [issue #1](https://github.com/Yiddishe-Kop/server-setup/issues/1)
-
 The scripts are devided into 3 parts:
 ### 1. Initial user setup & Firewall
 Creates a non-root user (prompts for username), with `sudo` priveleges.

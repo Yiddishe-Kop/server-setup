@@ -50,8 +50,7 @@ printf "${CYAN}What is your projects domain?${NC}\n"
 read domainName
 
 # Configure nginx
-sudo cat $SCRIPTS_DIR/nginx.conf | sed "s/PROJECT_NAME/$projectName/" | sed "s/DOMAIN_NAME/$domainName/" > /etc/nginx/sites-available/$projectName
-# error: Permission denied (above line) - any idea why? sudo is working on other operations...
+cat $SCRIPTS_DIR/nginx.conf | sed "s/PROJECT_NAME/$projectName/" | sed "s/DOMAIN_NAME/$domainName/" | sudo tee /etc/nginx/sites-available/$projectName > /dev/null
 
 sudo ln -s /etc/nginx/sites-available/$projectName /etc/nginx/sites-enabled/
 sudo nginx -t
