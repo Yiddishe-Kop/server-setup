@@ -70,12 +70,18 @@ printf "${GREEN}Then you can push to deploy like so:${NC}\n"
 printf "${CYAN}git push <remote-name>\n"
 read -p "Press enter once code is pushed to server..."
 
+# Setup supervisor to process Laravel Queues
+cat $SCRIPTS_DIR/laravel_queue.conf | sed "s/PROJECT_NAME/$projectName/" | sed "s/USERNAME/$USER/" | sudo tee /etc/supervisor/conf.d/laravel_queue.conf > /dev/null
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl start laravel-worker:*
+
 # permissions (again, to be sure 🤪)
 sudo gpasswd -a "$USER" www-data
 sudo chown -R "$USER":www-data /var/www
 
 cd /var/www/$projectName
-cat .env.example | sed "s/DB_DATABASE=laravel/DB_DATABASE=$projectName/" | sed "s/DB_USERNAME=root/DB_USERNAME=${projectName}_user/" | sed "s/DB_PASSWORD=/DB_PASSWORD=${dbPassword}/" > .env
+cat .env.example | sed "s/DB_DATABASE=laravel/DB_DATABASE=$projectName/" | sed "s/DB_USERNAME=root/DB_USERNAME=${projectName}_user/" | sed "s/DB_PASSWORD=/DB_PASSWORD=${dbPassword}/" | sed "s/QUEUE_CONNECTION=sync/QUEUE_CONNECTION=database/" > .env
 php artisan key:generate
 php artisan storage:link
 
