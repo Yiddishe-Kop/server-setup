@@ -27,6 +27,8 @@ sudo apt update
 sudo apt install php php-cli php-fpm php-json php-pdo php-mysql php-zip php-gd php-mbstring php-curl php-xml php-bcmath
 echo "PHP version installed:"
 php --version
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.4/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.4/fpm/php.ini
 
 # Composer
 echo "Installing Composer..."
