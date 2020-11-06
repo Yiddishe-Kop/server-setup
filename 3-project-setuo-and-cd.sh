@@ -40,6 +40,7 @@ git init --bare
 IP="$(curl -4s icanhazip.com)"
 cat $SCRIPTS_DIR/post-receive | sed "s/PROJECT_NAME/$projectName/" | sed "s/IP_ADDRESS/$IP/" > hooks/post-receive
 chmod +x hooks/post-receive
+echo "alias site='cd /var/www/$projectName'" >> ~/.bash_aliases # "site" alias to quickly move into site directory
 printf "${GREEN}Finished setting up Git & CD! 🥳${NC}\n"
 
 # permissions
