@@ -72,7 +72,7 @@ printf "${CYAN}git push <remote-name>\n"
 read -p "Press enter once code is pushed to server..."
 
 # Setup supervisor to process Laravel Queues
-cat $SCRIPTS_DIR/laravel_queue.conf | sed "s/PROJECT_NAME/$projectName/" | sed "s/USERNAME/$USER/" | sudo tee /etc/supervisor/conf.d/laravel_queue.conf > /dev/null
+cat $SCRIPTS_DIR/laravel_queue.conf | sed "s/PROJECT_NAME/$projectName/" | sudo tee /etc/supervisor/conf.d/laravel_queue.conf > /dev/null
 sudo supervisorctl reread
 sudo supervisorctl update
 sudo supervisorctl start laravel-worker:*
