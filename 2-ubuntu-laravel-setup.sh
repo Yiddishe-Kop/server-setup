@@ -52,9 +52,9 @@ echo "Installed Node version:"
 node -v
 
 echo "Adding some artisan conveniences..."
-echo "alias a='php artisan '" >> ~/.bash_aliases
-echo "alias art='php artisan '" >> ~/.bash_aliases
-source ~/.bash_aliases
+echo "alias a='php artisan '" >> ~/.bashaliases
+echo "alias art='php artisan '" >> ~/.bashaliases
+source ~/.bashaliases
 
 echo "Done! 💪"
 echo "You can now proceed to setup your project."
