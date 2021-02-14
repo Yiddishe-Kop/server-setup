@@ -12,8 +12,8 @@ sudo apt-get install zip unzip
 # setup sudo user (non-root)
 echo "Choose your username"
 read username
-adduser $username
-usermod -aG sudo $username
+sudo adduser $username
+sudo usermod -aG sudo $username
 echo "Created account for $username..."
 
 # Check Firewall Configurations
@@ -24,7 +24,7 @@ sudo ufw enable
 echo "Your new firewall configuration is:"
 sudo ufw status
 echo "Copying SSH keys to user $username..."
-rsync --archive --chown=$username:$username ~/.ssh /home/$username
+sudo rsync --archive --chown=$username:$username ~/.ssh /home/$username
 
 echo "Done! 💪"
 echo "==================================================="
