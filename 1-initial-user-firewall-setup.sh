@@ -6,8 +6,7 @@
 sudo apt-get update
 
 # Install cURL & ZIP/UNZIP
-sudo apt-get install curl
-sudo apt-get install zip unzip
+sudo apt-get install -y curl zip unzip
 
 # setup sudo user (non-root)
 echo "Choose your username"
