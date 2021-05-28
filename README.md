@@ -22,7 +22,7 @@ ssh $username@$ip_address
 Installs:
 - NGINX
 - MySQL
-- PHP (7.4 on Ubuntu 20.04+)
+- PHP (8.0 on Ubuntu 20.04+)
 - Composer
 - Node.js (NPM inc.)
 
