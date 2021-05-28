@@ -22,13 +22,18 @@ sudo mysql_secure_installation
 
 # PHP
 echo "Installing PHP..."
-sudo apt update
+
 # Ubuntu 20.04 will automatically install PHP v7.4
-sudo apt install php php-cli php-fpm php-json php-pdo php-mysql php-zip php-gd php-mbstring php-curl php-xml php-bcmath
+# We want PHP 8
+sudo apt install software-properties-common
+sudo add-apt-repository ppa:ondrej/php
+sudo apt update
+
+sudo apt install php8.0 php8.0-cli php8.0-fpm php8.0-pdo php8.0-mysql php8.0-zip php8.0-gd php8.0-mbstring php8.0-curl php8.0-xml php8.0-bcmath
 echo "PHP version installed:"
 php --version
-sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/7.4/fpm/php.ini
-sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/7.4/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php/8.0/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 100M/" /etc/php/8.0/fpm/php.ini
 
 # Composer
 echo "Installing Composer..."
@@ -42,6 +47,10 @@ sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
 # supervisor
 sudo apt-get install -y supervisor
+
+# acl to handle permissions
+sudo apt-get install -y acl
+
 
 # Node.js
 echo "Installing Node.js..."
